@@ -26,6 +26,7 @@
             --button-bg: #0071e3;
             --button-text: #ffffff;
             --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --answer-bg-color: #e9e9eb;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -38,23 +39,15 @@
                 --button-bg: #0a84ff;
                 --button-text: #ffffff;
                 --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                --answer-bg-color: #2c2c2e;
             }
         }
 
         /* === Pure Fade-in Animation Definition === */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
         /* === Smooth Scrolling === */
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         /* === General Styles === */
         body {
@@ -77,27 +70,17 @@
             border: 1px solid var(--border-color);
         }
         
-        /* Elements to be animated will start as transparent */
-        .container > *, #problem-list li {
-            opacity: 0;
-        }
+        .container > *, #problem-list li { opacity: 0; }
 
         h1, h2 {
             color: var(--header-color);
             border-bottom: 2px solid var(--header-color);
             padding-bottom: 10px;
         }
+        h3 { color: var(--header-color); }
+        h1 { text-align: center; font-size: 2.5em; }
         
-        h3 {
-            color: var(--header-color);
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2.5em;
-        }
-        
-        /* === Table of Contents Style (New) === */
+        /* === Table of Contents Style === */
         .table-of-contents {
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
@@ -105,56 +88,18 @@
             padding: 15px 25px;
             margin: 2.5em 0;
         }
-
-        .table-of-contents h3 {
-            margin-top: 0;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-
-        .table-of-contents ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .table-of-contents li {
-            margin-bottom: 10px;
-        }
-        
-        .table-of-contents li:last-child {
-            margin-bottom: 0;
-        }
-
-        .table-of-contents a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.2s;
-            display: block;
-        }
-
-        .table-of-contents a:hover {
-            color: var(--header-color);
-        }
+        .table-of-contents h3 { margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px; font-size: 1.3em; }
+        .table-of-contents ul { list-style: none; padding: 0; margin: 0; }
+        .table-of-contents li { margin-bottom: 10px; }
+        .table-of-contents li:last-child { margin-bottom: 0; }
+        .table-of-contents a { color: var(--text-color); text-decoration: none; font-weight: bold; transition: color 0.2s; display: block; }
+        .table-of-contents a:hover { color: var(--header-color); }
 
         /* === KaTeX Color Theming === */
-        .katex {
-            color: var(--text-color);
-            font-size: 1.1em;
-        }
+        .katex { color: var(--text-color); font-size: 1.1em; }
 
         /* === Sudare-zan (すだれ算) Style === */
-        .sudare-zan {
-            display: inline-block;
-            margin: 1em 0;
-            padding: 1em;
-            background-color: var(--bg-color);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
+        .sudare-zan { display: inline-block; margin: 1em 0; padding: 1em; background-color: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color); }
 
         /* === Trivia (豆知識) Style === */
         .trivia-box {
@@ -164,35 +109,14 @@
             padding: 15px 20px;
             border-radius: 8px;
         }
-
-        .trivia-box h3 {
-            display: flex;
-            align-items: center;
-            margin-top: 0;
-            color: var(--header-color);
-        }
-
-        .trivia-box svg {
-            fill: currentColor;
-            margin-right: 10px;
-            min-width: 16px;
-        }
+        .trivia-box h3 { display: flex; align-items: center; margin-top: 0; color: var(--header-color); }
+        .trivia-box svg { fill: currentColor; margin-right: 10px; min-width: 16px; }
 
         /* === Practice Problems (練習問題) Style === */
-        #problem-section h2 {
-            margin-bottom: 5px;
-        }
+        #problem-section h2 { margin-bottom: 5px; }
+        #problem-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
 
-        #problem-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        #generate-button {
+        #generate-button, .toggle-answer-button {
             font-family: 'Roboto', sans-serif;
             background-color: var(--button-bg);
             color: var(--button-text);
@@ -203,18 +127,12 @@
             font-size: 1em;
             font-weight: bold;
             transition: transform 0.2s, box-shadow 0.2s;
+            flex-shrink: 0;
         }
-        
-        #generate-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-        
-        #problem-list {
-            list-style: none;
-            padding: 0;
-        }
+        #generate-button:hover, .toggle-answer-button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); }
+        .toggle-answer-button { padding: 8px 15px; font-size: 0.9em; }
 
+        #problem-list { list-style: none; padding: 0; }
         #problem-list li {
             background-color: var(--bg-color);
             margin-bottom: 12px;
@@ -222,22 +140,32 @@
             border-radius: 8px;
             border: 1px solid var(--border-color);
             display: flex;
-            align-items: center;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
         }
         
-        #problem-list .problem-number {
-            color: var(--header-color);
-            font-weight: bold;
-            margin-right: 15px;
-            font-size: 1.2em;
-            min-width: 2.5ch;
-            text-align: right;
+        .problem-and-answer {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
         }
+        .problem-line { display: flex; align-items: center; }
+        .answer-line { 
+            display: none;
+            padding: 10px;
+            background-color: var(--answer-bg-color);
+            border-radius: 6px;
+        }
+        
+        .problem-number { color: var(--header-color); font-weight: bold; margin-right: 15px; font-size: 1.2em; min-width: 2.5ch; text-align: right; }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- (コンテンツ部分は変更なしのため省略) -->
         <h1>素因数分解を学ぼう！</h1>
 
         <!-- === Table of Contents (New) === -->
@@ -399,14 +327,11 @@
     <script>
         // === JavaScript Section ===
 
-        // KaTeX auto-render settings
-        const renderMath = () => {
-            renderMathInElement(document.body, {
+        const renderMath = (element) => {
+            renderMathInElement(element || document.body, {
                 delimiters: [
                     {left: '$$', right: '$$', display: true},
                     {left: '$', right: '$', display: false},
-                    {left: '\\(', right: '\\)', display: false},
-                    {left: '\\[', right: '\\]', display: true}
                 ],
                 throwOnError : false
             });
@@ -416,56 +341,98 @@
         const generateButton = document.getElementById('generate-button');
         const problemCount = 25;
 
-        // Function to generate a random number for practice
+        // Helper function to get prime factorization as a formatted string
+        function getPrimeFactorizationString(n) {
+            if (n < 2) return n.toString();
+            const factors = {};
+            let d = 2;
+            let tempN = n;
+            while (d * d <= tempN) {
+                while (tempN % d === 0) {
+                    factors[d] = (factors[d] || 0) + 1;
+                    tempN /= d;
+                }
+                d++;
+            }
+            if (tempN > 1) {
+                factors[tempN] = (factors[tempN] || 0) + 1;
+            }
+
+            const result = Object.entries(factors).map(([base, power]) => {
+                return power === 1 ? base : `${base}^${power}`;
+            });
+            
+            return `$${result.join(' \\times ')}$`;
+        }
+        
         const getRandomInt = () => {
             const min = 20;
             const max = 1000;
             return Math.floor(Math.random() * (max - min + 1)) + min;
         };
 
-        // Function to generate and display problems
         const generateProblems = () => {
-            // Clear existing problems
             problemList.innerHTML = '';
 
-            // Generate new problems
             for (let i = 1; i <= problemCount; i++) {
                 const numberToFactor = getRandomInt();
                 const listItem = document.createElement('li');
                 
+                const problemText = `次の数を素因数分解しなさい: <strong>$${numberToFactor}$</strong>`;
+                const answerText = getPrimeFactorizationString(numberToFactor);
+
                 listItem.innerHTML = `
-                    <span class="problem-number">${i}.</span>
-                    <span>次の数を素因数分解しなさい: <strong>$${numberToFactor}$</strong></span>
+                    <div class="problem-and-answer">
+                        <div class="problem-line">
+                            <span class="problem-number">${i}.</span>
+                            <span>${problemText}</span>
+                        </div>
+                        <div class="answer-line">
+                             <span class="answer-text"><strong>答:</strong> ${answerText}</span>
+                        </div>
+                    </div>
+                    <button class="toggle-answer-button">答えを見る</button>
                 `;
                 
-                // --- Apply staggered fade-in animation to each new problem ---
                 listItem.style.animation = `fadeIn 0.6s ease-out forwards`;
-                listItem.style.animationDelay = `${(i - 1) * 0.05}s`; // 0.05s delay between each item
+                listItem.style.animationDelay = `${(i - 1) * 0.05}s`;
                 
                 problemList.appendChild(listItem);
             }
-
-            // Re-render KaTeX for the new problems
-            renderMath();
+            renderMath(problemList);
         };
         
-        // Initial setup on page load
+        // Event listener for answer buttons (using event delegation)
+        problemList.addEventListener('click', (event) => {
+            const button = event.target.closest('.toggle-answer-button');
+            if (!button) return;
+
+            const listItem = button.closest('li');
+            const answerLine = listItem.querySelector('.answer-line');
+
+            const isHidden = answerLine.style.display === 'none';
+            if (isHidden) {
+                answerLine.style.display = 'block';
+                button.textContent = '隠す';
+                renderMath(answerLine);
+            } else {
+                answerLine.style.display = 'none';
+                button.textContent = '答えを見る';
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Render initial math elements
             renderMath();
             
-            // --- Staggered fade-in animation for main content blocks ---
             const mainContent = document.querySelectorAll('.container > *');
             mainContent.forEach((element, index) => {
                 element.style.animation = `fadeIn 1s ease-out forwards`;
-                element.style.animationDelay = `${index * 0.15}s`; // 0.15s delay between each block
+                element.style.animationDelay = `${index * 0.15}s`;
             });
             
-            // Generate the first set of problems
             generateProblems();
         });
 
-        // Event listener for the generate button
         generateButton.addEventListener('click', generateProblems);
 
     </script>
