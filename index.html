@@ -41,10 +41,14 @@
             }
         }
 
-        /* === Fade-in Animation === */
+        /* === Pure Fade-in Animation Definition === */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         /* === General Styles === */
@@ -66,11 +70,11 @@
             border-radius: 12px;
             box-shadow: var(--box-shadow);
             border: 1px solid var(--border-color);
-            
-            /* Apply Fade-in Animation */
+        }
+        
+        /* Elements to be animated will start as transparent */
+        .container > *, #problem-list li {
             opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-            animation-delay: 0.2s;
         }
 
         h1, h2 {
@@ -354,7 +358,6 @@
         const problemCount = 25;
 
         // Function to generate a random number for practice
-        // Generates numbers between 20 and 1000
         const getRandomInt = () => {
             const min = 20;
             const max = 1000;
@@ -375,23 +378,36 @@
                     <span class="problem-number">${i}.</span>
                     <span>次の数を素因数分解しなさい: <strong>$${numberToFactor}$</strong></span>
                 `;
+                
+                // --- Apply staggered fade-in animation to each new problem ---
+                listItem.style.animation = `fadeIn 0.6s ease-out forwards`;
+                listItem.style.animationDelay = `${(i - 1) * 0.05}s`; // 0.05s delay between each item
+                
                 problemList.appendChild(listItem);
             }
 
             // Re-render KaTeX for the new problems
             renderMath();
         };
-
-        // Event listener for the generate button
-        generateButton.addEventListener('click', generateProblems);
-
+        
         // Initial setup on page load
         document.addEventListener('DOMContentLoaded', () => {
-            // Render initial math elements like headers and trivia
+            // Render initial math elements
             renderMath();
+            
+            // --- Staggered fade-in animation for main content blocks ---
+            const mainContent = document.querySelectorAll('.container > *');
+            mainContent.forEach((element, index) => {
+                element.style.animation = `fadeIn 1s ease-out forwards`;
+                element.style.animationDelay = `${index * 0.15}s`; // 0.15s delay between each block
+            });
+            
             // Generate the first set of problems
             generateProblems();
         });
+
+        // Event listener for the generate button
+        generateButton.addEventListener('click', generateProblems);
 
     </script>
 </body>
