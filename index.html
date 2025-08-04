@@ -1,368 +1,398 @@
 <!DOCTYPE html>
-<!-- KaTeX requires the use of the HTML5 doctype. Without it, KaTeX may not render properly. -->
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>素因数分解を学ぼう！</title>
     
-    <!-- Google Fonts: Roboto -->
+    <!-- Roboto Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- KaTeX CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-DotAjdYtd2bN2eY4b9j/z4Rln532r+n3w1G8C4kH+eR/5PThN/3CMbK/ohDk5Awn" crossorigin="anonymous">
-
-    <!-- KaTeX JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTad9Mrk+2MqrM9oH2nItyA3K3S8H4oWPAhD2pX/2/5mE9/Qd0N5L+fQjX" crossorigin="anonymous"></script>
-
-    <!-- KaTeX auto-render extension -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-4wWqMb6S1SCD226k1d/3KjIh4e3y7wE/2+i8h+s9R+6k/SmXnF5s0KIsyO7b/u3M" crossorigin="anonymous"></script>
-
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"></script>
+    
     <style>
-        /* CSSカスタムプロパティでテーマカラーを定義 */
+        /* === CSS Variables for Theming === */
         :root {
-            --bg-color: #f4f4f9;
-            --text-color: #333;
-            --header-bg: #6a1b9a;
-            --header-text: #fff;
-            --accent-color: #7b2cbf;
-            --card-bg: #ffffff;
-            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            --trivia-bg: #e3f2fd;
-            --trivia-border: #90caf9;
-            --btn-bg: var(--accent-color);
-            --btn-text: #fff;
+            --bg-color: #f5f5f7;
+            --text-color: #1d1d1f;
+            --header-color: #0071e3;
+            --accent-color: #ffffff;
+            --border-color: #d2d2d7;
+            --button-bg: #0071e3;
+            --button-text: #ffffff;
+            --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-color: #121212;
-                --text-color: #e0e0e0;
-                --header-bg: #311b92;
-                --accent-color: #9575cd;
-                --card-bg: #1e1e1e;
-                --card-shadow: 0 4px 8px rgba(0,0,0,0.25);
-                --trivia-bg: #1e2a38;
-                --trivia-border: #4a6da7;
-                --btn-bg: var(--accent-color);
-                --btn-text: #e0e0e0;
+                --text-color: #f5f5f7;
+                --header-color: #0a84ff;
+                --accent-color: #1d1d1f;
+                --border-color: #424245;
+                --button-bg: #0a84ff;
+                --button-text: #ffffff;
+                --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             }
         }
 
-        /* 基本スタイル */
+        /* === Fade-in Animation === */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === General Styles === */
         body {
-            font-family: 'Roboto', 'Noto Sans JP', sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Roboto', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.8;
+            margin: 0;
+            padding: 20px;
             transition: background-color 0.3s, color 0.3s;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            background-color: var(--header-bg);
-            color: var(--header-text);
-            padding: 2rem 0;
-            text-align: center;
-            border-bottom: 5px solid var(--accent-color);
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-        }
-
-        main {
-            padding: 2rem 0;
-        }
-
-        section {
-            background-color: var(--card-bg);
-            margin-bottom: 2rem;
-            padding: 1.5rem 2rem;
+            background-color: var(--accent-color);
+            padding: 20px 40px;
             border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+            
+            /* Apply Fade-in Animation */
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.2s;
         }
 
-        h2 {
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 0.5rem;
-            margin-top: 0;
+        h1, h2 {
+            color: var(--header-color);
+            border-bottom: 2px solid var(--header-color);
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: var(--header-color);
         }
 
-        /* 豆知識ボックス */
-        .trivia {
-            background-color: var(--trivia-bg);
-            border: 2px solid var(--trivia-border);
-            border-left: 8px solid var(--trivia-border);
-            padding: 1.5rem;
-            margin: 2rem 0;
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+        }
+        
+        /* === KaTeX Color Theming === */
+        .katex {
+            color: var(--text-color);
+            font-size: 1.1em;
+        }
+
+        /* === Sudare-zan (すだれ算) Style === */
+        .sudare-zan {
+            display: inline-block;
+            margin: 1em 0;
+            padding: 1em;
+            background-color: var(--bg-color);
             border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* === Trivia (豆知識) Style === */
+        .trivia-box {
+            background-color: var(--bg-color);
+            border-left: 5px solid var(--header-color);
+            margin: 2em 0;
+            padding: 15px 20px;
+            border-radius: 8px;
+        }
+
+        .trivia-box h3 {
             display: flex;
-            align-items: flex-start;
-            gap: 1rem;
+            align-items: center;
+            margin-top: 0;
+            color: var(--header-color);
         }
 
-        .trivia-icon {
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            fill: var(--accent-color);
-            margin-top: 5px;
+        .trivia-box svg {
+            fill: currentColor;
+            margin-right: 10px;
+            min-width: 16px;
         }
 
-        .trivia p {
-            margin: 0;
+        /* === Practice Problems (練習問題) Style === */
+        #problem-section h2 {
+            margin-bottom: 5px;
+        }
+
+        #problem-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #generate-button {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
-        /* 練習問題 */
-        #exercises ol {
-            list-style-type: none;
-            padding-left: 0;
-            counter-reset: exercise-counter;
-            columns: 2; /* 2段組にする */
-            gap: 1rem;
+        #generate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
         
-        @media (max-width: 600px) {
-            #exercises ol {
-                columns: 1; /* 画面幅が狭い場合は1段組 */
-            }
+        #problem-list {
+            list-style: none;
+            padding: 0;
         }
 
-        #exercises li {
-            counter-increment: exercise-counter;
-            margin-bottom: 1rem;
+        #problem-list li {
+            background-color: var(--bg-color);
+            margin-bottom: 12px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
         }
-
-        #exercises li::before {
-            content: counter(exercise-counter) ". ";
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-right: 0.8rem;
-            font-size: 1.2em;
-        }
-
-        #regenerate-btn {
-            display: block;
-            margin: 1.5rem auto 0;
-            padding: 0.8rem 1.5rem;
-            font-family: 'Roboto', sans-serif;
-            font-size: 1rem;
-            font-weight: bold;
-            color: var(--btn-text);
-            background-color: var(--btn-bg);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        #regenerate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
         
-        footer {
-            text-align: center;
-            padding: 1rem;
-            height: 2em; /* フッターの高さを確保 */
+        #problem-list .problem-number {
+            color: var(--header-color);
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2em;
+            min-width: 2.5ch;
+            text-align: right;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <h1>素因数分解を学ぼう！</h1>
+    <div class="container">
+        <h1>素因数分解を学ぼう！</h1>
+
+        <section id="introduction">
+            <h2>$1$. 素因数分解ってなんだろう？</h2>
+            <p>
+                素因数分解（そいんすうぶんかい）とは、$1$より大きい自然数を、<strong>素数だけの掛け算の形に分解すること</strong>です。
+                一見すると複雑な計算に思えるかもしれませんが、これは数の「設計図」を明らかにするような、とても面白い作業です。すべての建物がレンガや木材といった基本的な材料からできているように、すべての合成数（素数でない数）は素数という基本的なブロックの組み合わせでできています。
+            </p>
+            <p>
+                まず、この「<strong>素数</strong>」という言葉が鍵になります。素数とは、$2, 3, 5, 7, 11, \dots$ のように、「$1$とその数自身以外に約数を持たない、$1$より大きい自然数」のことです。素数は、これ以上分解できない数の最小単位と考えることができます。
+            </p>
+            <p>
+                例えば、数字の$12$を素因数分解すると、次のようになります。
+            </p>
+            <p style="text-align: center; font-size: 1.2em;">
+                $12 = 2 \times 2 \times 3 = 2^2 \times 3$
+            </p>
+            <p>
+                この結果が意味するのは、「$12$という数は、$2$という素数$2$個と、$3$という素数$1$個の掛け算で成り立っている」ということです。そして、とても重要な事実として、どんな合成数も、<strong>掛け合わせる素数の順番を無視すれば、その分解方法はただ一通りしかありません</strong>。これを数学の世界では「<strong>算術の基本定理</strong>」と呼びます。この性質があるからこそ、素因数分解は数学の様々な場面で強力なツールとなるのです。
+            </p>
+        </section>
+
+        <div class="trivia-box">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightbulb" viewBox="0 0 16 16">
+                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+                </svg>
+                豆知識 $1$：素因数分解はネット社会の縁の下の力持ち
+            </h3>
+            <p>
+                私たちが普段使っているインターネットのセキュリティは、素因数分解が「<strong>非常に難しい</strong>」という性質を利用しています。特に「RSA暗号」という技術では、$2$つの巨大な素数を掛け合わせるのは簡単ですが、その掛け合わされた数から元の$2$つの素数を探り当てる（素因数分解する）のは、スーパーコンピュータを使っても天文学的な時間がかかります。この性質のおかげで、私たちの個人情報やクレジットカード情報は安全に守られているのです。
+            </p>
         </div>
-    </header>
 
-    <main class="container">
-        <section id="explanation">
-            <h2>1. 素因数分解とは？</h2>
+        <section id="how-to">
+            <h2>$2$. 「すだれ算」で素因数分解してみよう！</h2>
             <p>
-                素因数分解（そいんすうぶんかい）とは、\(1\)より大きい自然数を、<strong>素数だけの積</strong>の形で表すことです。
-                例えば、\(12\) という数を素因数分解すると \(2 \times 2 \times 3\) となります。同じ素数は累乗（るいじょう）を使って \(12 = 2^2 \times 3\) と書くのが一般的です。
+                素因数分解を効率的に、そして間違いなく行う方法として「<strong>すだれ算</strong>（連除法）」が広く使われます。やり方はとてもシンプルです。
             </p>
-            <p>
-                この分解には、とても大切な「素数」という数が関わってきます。
-            </p>
-
-            <h3>素数とは？</h3>
-            <p>
-                素数（そすう）とは、\(1\)とその数自身以外に約数を持たない、\(1\)より大きい自然数のことです。
-                <br>
-                例: \(2, 3, 5, 7, 11, 13, 17, \dots\)
-            </p>
-            <p>
-                \(2\)は唯一の偶数の素数です。\(4\)は\(2\)で割り切れるので素数ではありません。\(9\)は\(3\)で割り切れるので素数ではありません。
-            </p>
-            
-            <div class="trivia">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-lightbulb trivia-icon" viewBox="0 0 16 16">
-                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
-                </svg>
-                <div>
-                    <p><strong>豆知識：インターネットを支える素因数分解</strong><br>
-                    インターネットでの安全な通信（オンラインショッピングやネットバンキングなど）には、RSA暗号という技術が使われています。この暗号は、<strong>「\(2\)つの大きな素数を掛け合わせるのは簡単だけど、その積から元の\(2\)つの素数を見つけ出す（素因数分解する）のは非常に難しい」</strong>という性質を安全性の根拠にしています。つまり、素因数分解の難しさが、私たちの個人情報を守っているのです。</p>
-                </div>
-            </div>
-
-            <h2>2. 素因数分解のやり方</h2>
-            <p>
-                素因数分解は、小さな素数から順番に割っていくことで行えます。日本では「すだれ算（はしご算）」という筆算がよく使われます。
-            </p>
-            <p>例として \(60\) を素因数分解してみましょう。</p>
             <ol>
-                <li>\(60\) を一番小さい素数である \(2\) で割ります。\(60 \div 2 = 30\)。</li>
-                <li>その結果の \(30\) を、再び \(2\) で割ります。\(30 \div 2 = 15\)。</li>
-                <li>\(15\) は \(2\) では割れないので、次の素数 \(3\) で割ります。\(15 \div 3 = 5\)。</li>
-                <li>\(5\) は素数なので、これ以上分解できません。</li>
+                <li>分解したい数を書きます。</li>
+                <li>その数を割り切れる<strong>最も小さい素数</strong>で割ります。($2$で割れるか、$3$で割れるか、$5$で割れるか…と順番に試すのがコツです)</li>
+                <li>計算結果（商）を下に書きます。</li>
+                <li>計算結果が素数になるまで、$2$と$3$の手順を繰り返します。</li>
             </ol>
             <p>
-                これで、割るのに使った素数 \(2, 2, 3\) と最後の商 \(5\) が素因数となります。
-                したがって、\(60 = 2 \times 2 \times 3 \times 5 = 2^2 \times 3 \times 5\) となります。
+                <strong>ポイント：</strong>なぜ小さい素数から試すのが良いのでしょうか？それは、小さい素数で割り切れるだけ割っておけば、後からその倍数（例えば$4$や$6$など）で割れるかどうかを考える必要がなくなり、常に素数だけで割り進めることができるからです。これにより、ミスが減り、効率的に分解を進められます。
             </p>
-            <p>すだれ算で書くとこのようになります。</p>
-            
-            <div style="text-align: center; margin: 1.5rem 0; font-size: 1.2em;">
-            \[
-            \begin{array}{r|r}
-            2 & 60 \\
-            \hline
-            2 & 30 \\
-            \hline
-            3 & 15 \\
-            \hline
-            \multicolumn{1}{r}{} & 5
-            \end{array}
-            \]
-            </div>
-
-            <div class="trivia">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-lightbulb trivia-icon" viewBox="0 0 16 16">
-                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
-                </svg>
-                <div>
-                    <p><strong>豆知識：これまでに発見された最大の素数 (2024年10月時点)</strong><br>
-                    現在知られている最大の素数は「\(2^{136,279,841} - 1\)」です。これは「GIMPS (Great Internet Mersenne Prime Search)」というプロジェクトによって2024年10月に発見されました。この数は、十進法で書くと\(41,024,320\)桁にもなる、とてつもなく巨大な数です。GIMPSは、世界中のボランティアがコンピュータの空き時間を使って新しい素数を探し続けるプロジェクトです。</p>
+            <p>
+                それでは、$84$を素因数分解してみましょう。
+            </p>
+            <div style="text-align: center;">
+                <div class="sudare-zan">
+                    $$
+                    \begin{array}{r|l}
+                        2 & 84 \\
+                        \hline
+                        2 & 42 \\
+                        \hline
+                        3 & 21 \\
+                        \hline
+                          & 7
+                    \end{array}
+                    $$
                 </div>
             </div>
+            <p>
+                すだれの左側に出てきた割る数（$2, 2, 3$）と、最後に残った素数（$7$）をすべて掛け合わせれば、素因数分解の完成です。
+            </p>
+            <p style="text-align: center; font-size: 1.2em;">
+                $84 = 2 \times 2 \times 3 \times 7 = 2^2 \times 3 \times 7$
+            </p>
+        </section>
+        
+        <section id="applications">
+            <h2>$3$. 素因数分解の便利な使い道</h2>
+            <p>素因数分解は、それ自体が目的というより、他の問題を解くための強力な道具として真価を発揮します。ここでは主な$3$つの応用例を見てみましょう。</p>
             
-            <div class="trivia">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-lightbulb trivia-icon" viewBox="0 0 16 16">
-                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
-                </svg>
-                <div>
-                    <p><strong>豆知識：数学上の未解決問題「双子素数予想」</strong><br>
-                    \( (3, 5) \)や\( (17, 19) \)のように、差が\(2\)である素数のペアを「双子素数」と呼びます。この双子素数は、はたして無限に存在するのでしょうか？これは「双子素数予想」と呼ばれ、古代ギリシャ時代から続く数学の未解決問題の一つです。多くの数学者が挑戦していますが、まだ誰も証明できていません。</p>
-                </div>
-            </div>
+            <h3>最大公約数（GCD）と最小公倍数（LCM）</h3>
+            <p>複数の数の最大公約数や最小公倍数を探すとき、素因数分解は絶大な威力を発揮します。例えば、$36$と$48$で考えてみましょう。</p>
+            <p>$36 = 2^2 \times 3^2$</p>
+            <p>$48 = 2^4 \times 3^1$</p>
+            <ul>
+                <li><strong>最大公約数 (GCD):</strong> 両方に共通する素因数を抜き出し、<strong>指数の小さい方</strong>を取って掛け合わせます。<br>
+                共通するのは$2$と$3$。指数は$2$が$\min(2, 4)=2$、$3$が$\min(2, 1)=1$なので…<br>
+                $GCD = 2^2 \times 3^1 = 4 \times 3 = 12$
+                </li>
+                <li><strong>最小公倍数 (LCM):</strong> 両方に登場するすべての素因数を抜き出し、<strong>指数の大きい方</strong>を取って掛け合わせます。<br>
+                登場するのは$2$と$3$。指数は$2$が$\max(2, 4)=4$、$3$が$\max(2, 1)=2$なので…<br>
+                $LCM = 2^4 \times 3^2 = 16 \times 9 = 144$
+                </li>
+            </ul>
             
-             <div class="trivia">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-lightbulb trivia-icon" viewBox="0 0 16 16">
-                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
-                </svg>
-                <div>
-                    <p><strong>豆知識：神の数？「完全数」</strong><br>
-                    自分自身を除いた約数の和が、自分自身に等しくなる自然数を「完全数」といいます。最初の完全数は\(6\)で、その約数は\(1, 2, 3\)です。そして \(1+2+3=6\) となります。次の完全数は\(28\) (\(1+2+4+7+14=28\)) です。古代ギリシャの数学者たちは、この数に神秘的な意味を見出していました。興味深いことに、これまでに発見されている完全数はすべて偶数で、メルセンヌ素数という特殊な素数と密接な関係があります。「奇数の完全数は存在するのか？」という問いは、今なお未解決の問題です。</p>
-                </div>
-            </div>
-
+            <h3>平方根の簡略化</h3>
+            <p>ルート（$\sqrt{\phantom{x}}$）の中の数字をできるだけ小さくする際にも、素因数分解が役立ちます。ルートの中から外に出せるのは「$2$乗」のペアになっている数です。</p>
+            <p>例えば、$\sqrt{72}$を簡単にしてみましょう。</p>
+            <p>$72 = 2^3 \times 3^2 = (2^2 \times 2) \times 3^2 = (2^2 \times 3^2) \times 2$</p>
+            <p>ここで、$2^2$と$3^2$はペアになっているのでルートの外に出せます。</p>
+            <p>$\sqrt{72} = \sqrt{2^2 \times 3^2 \times 2} = \sqrt{2^2} \times \sqrt{3^2} \times \sqrt{2} = 2 \times 3 \times \sqrt{2} = 6\sqrt{2}$</p>
         </section>
 
-        <section id="exercises">
-            <h2>練習問題</h2>
-            <p>それでは、学んだことを使って練習問題に挑戦してみましょう。以下の数を素因数分解してください。（答えは載せていません）</p>
-            <ol id="exercise-list">
-                <!-- 問題はJavaScriptで自動生成されます -->
-            </ol>
-            <button id="regenerate-btn">問題を再生成</button>
+        <div class="trivia-box">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightbulb" viewBox="0 0 16 16">
+                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+                </svg>
+                豆知識 $2$：現在知られている最大の素数
+            </h3>
+            <p>
+                素数は無限に存在することが証明されていますが、人間が発見した「最大の素数」の記録は常に更新されています。$2024$年$10$月に、新しい最大の素数が発見されました。その数はなんと...
+            </p>
+            <p style="text-align: center; font-size: 1.2em;">
+                $2^{136,279,841} - 1$
+            </p>
+            <p>
+                ...という数で、十進法で書くと<strong>$41,024,320$桁</strong>にもなります。これは「メルセンヌ素数」と呼ばれる特別な形の素数で、「GIMPS」というプロジェクトによって発見されました。
+            </p>
+        </div>
+        
+        <div class="trivia-box">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightbulb" viewBox="0 0 16 16">
+                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+                </svg>
+                豆知識 $3$：素因数分解と完全数
+            </h3>
+            <p>
+                「完全数」という数を知っていますか？ 完全数とは、「<strong>その数自身を除く約数の和が、その数自身と等しくなる自然数</strong>」のことです。例えば、最小の完全数は$6$です。$6$の約数は$1, 2, 3, 6$ですが、自分自身（$6$）を除いた約数の和は $1+2+3=6$ となり、元の数に戻ります。
+            </p>
+            <p>
+                実は、この完全数はメルセンヌ素数と深い関係があります。$2^p-1$がメルセンヌ素数であるとき、$2^{p-1}(2^p-1)$は必ず偶数の完全数になります。これまでに見つかっている完全数は、すべてこの形をしています。（奇数の完全数が存在するかどうかは、未解決問題です！）
+            </p>
+        </div>
+
+        <section id="problem-section">
+            <h2>$4$. 練習問題</h2>
+            <div id="problem-meta">
+                <p>問題数: <span class="katex">25</span></p>
+                <button id="generate-button">新しい問題を生成</button>
+            </div>
+            <div id="problem-list-container">
+                <ol id="problem-list"></ol>
+            </div>
         </section>
-    </main>
-    
-    <footer>
-    </footer>
-    
+
+    </div>
+
     <script>
+        // === JavaScript Section ===
+
+        // KaTeX auto-render settings
+        const renderMath = () => {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                throwOnError : false
+            });
+        };
+
+        const problemList = document.getElementById('problem-list');
+        const generateButton = document.getElementById('generate-button');
+        const problemCount = 25;
+
+        // Function to generate a random number for practice
+        // Generates numbers between 20 and 1000
+        const getRandomInt = () => {
+            const min = 20;
+            const max = 1000;
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
+
+        // Function to generate and display problems
+        const generateProblems = () => {
+            // Clear existing problems
+            problemList.innerHTML = '';
+
+            // Generate new problems
+            for (let i = 1; i <= problemCount; i++) {
+                const numberToFactor = getRandomInt();
+                const listItem = document.createElement('li');
+                
+                listItem.innerHTML = `
+                    <span class="problem-number">${i}.</span>
+                    <span>次の数を素因数分解しなさい: <strong>$${numberToFactor}$</strong></span>
+                `;
+                problemList.appendChild(listItem);
+            }
+
+            // Re-render KaTeX for the new problems
+            renderMath();
+        };
+
+        // Event listener for the generate button
+        generateButton.addEventListener('click', generateProblems);
+
+        // Initial setup on page load
         document.addEventListener('DOMContentLoaded', () => {
-            const exerciseList = document.getElementById('exercise-list');
-            const regenerateBtn = document.getElementById('regenerate-btn');
-            
-            // KaTeXの自動レンダリングを設定
-            const renderOptions = {
-              delimiters: [
-                  {left: '$$', right: '$$', display: true},
-                  {left: '\\[', right: '\\]', display: true},
-                  {left: '\\(', right: '\\)', display: false},
-                  {left: '$', right: '$', display: false}
-              ],
-              throwOnError : false
-            };
-            
-            // 初回ページ読み込み時に全体をレンダリング
-            renderMathInElement(document.body, renderOptions);
-
-            // 素数かどうかを判定する関数
-            const isPrime = (num) => {
-                if (num < 2) return false;
-                for (let i = 2; i <= Math.sqrt(num); i++) {
-                    if (num % i === 0) return false;
-                }
-                return true;
-            };
-
-            // 練習問題を生成して表示する関数
-            const generateExercises = () => {
-                const problems = new Set();
-                const min = 12; // 問題の最小値
-                const max = 500; // 問題の最大値
-                const count = 25; // 問題数
-
-                while (problems.size < count) {
-                    const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-                    // 素数でない、かつセットにまだない数なら追加
-                    if (!isPrime(randomNum) && !problems.has(randomNum)) {
-                        problems.add(randomNum);
-                    }
-                }
-
-                // リストをクリア
-                exerciseList.innerHTML = '';
-
-                // 問題をソートしてリストに追加
-                const sortedProblems = Array.from(problems).sort((a, b) => a - b);
-                sortedProblems.forEach(num => {
-                    const listItem = document.createElement('li');
-                    // KaTeXが認識できるように数式をフォーマット
-                    listItem.textContent = `\\( ${num} \\)`;
-                    exerciseList.appendChild(listItem);
-                });
-
-                // KaTeXに動的に追加されたコンテンツをレンダリングさせる
-                renderMathInElement(exerciseList, renderOptions);
-            };
-            
-            // ボタンのクリックイベントリスナーを設定
-            regenerateBtn.addEventListener('click', generateExercises);
-
-            // 初回読み込み時に問題を生成
-            generateExercises();
+            // Render initial math elements like headers and trivia
+            renderMath();
+            // Generate the first set of problems
+            generateProblems();
         });
+
     </script>
 </body>
 </html>
